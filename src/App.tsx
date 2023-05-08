@@ -21,6 +21,7 @@ import Home from './pages/Home';
 import Concert from './pages/Concert';
 import Admin from './pages/Admin';
 import NotFound from './pages/NotFound';
+import { UserProvider } from './hooks/useLoggedInUser';
 
 const rootRoute = new RootRoute({
 	component: () => (
@@ -94,6 +95,10 @@ declare module '@tanstack/react-router' {
 	}
 }
 
-const App = () => <RouterProvider router={router} />;
+const App = () => (
+	<UserProvider>
+		<RouterProvider router={router} />;
+	</UserProvider>
+);
 
 export default App;
