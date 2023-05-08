@@ -1,37 +1,99 @@
-import { useState } from 'react';
-
-import viteLogo from './assets/vite.svg';
-import reactLogo from './assets/react.svg';
+import {
+	Link,
+	Outlet,
+	RootRoute,
+	Route,
+	Router,
+	RouterProvider
+} from '@tanstack/react-router';
+import {
+	AppBar,
+	Container,
+	CssBaseline,
+	ThemeProvider,
+	Toolbar
+} from '@mui/material';
 
 import './App.css';
 
-const App = () => {
-	const [count, setCount] = useState(0);
+import theme from './theme';
+import Home from './pages/Home';
+import Concert from './pages/Concert';
+import Admin from './pages/Admin';
+import NotFound from './pages/NotFound';
 
-	return (
-		<div className="App">
-			<div>
-				<a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-					<img src={viteLogo} className="logo" alt="Vite logo" />
-				</a>
-				<a href="https://reactjs.org" target="_blank" rel="noreferrer">
-					<img src={reactLogo} className="logo react" alt="React logo" />
-				</a>
-			</div>
-			<h1>Vite + React</h1>
-			<div className="card">
-				<button onClick={() => setCount(count => count + 1)}>
-					count is {count}
-				</button>
-				<p>
-					Edit <code>src/App.tsx</code> and save to test HMR
-				</p>
-			</div>
-			<p className="read-the-docs">
-				Click on the Vite and React logos to learn more
-			</p>
-		</div>
-	);
-};
+const rootRoute = new RootRoute({
+	component: () => (
+		<ThemeProvider theme={theme}>
+			<CssBaseline />
+
+			<AppBar sx={{ position: 'sticky', width: '100%' }}>
+				<Container maxWidth="sm">
+					<Toolbar disableGutters sx={{ gap: 2 }}>
+						<Link to="/concert">Concert</Link>
+					</Toolbar>
+				</Container>
+			</AppBar>
+
+			<Container
+				maxWidth="sm"
+				component="main"
+				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'center',
+					alignItems: 'center',
+					flexGrow: 1,
+					gap: 2,
+					my: 4
+				}}
+			>
+				<Outlet />
+			</Container>
+		</ThemeProvider>
+	)
+});
+
+const indexRoute = new Route({
+	getParentRoute: () => rootRoute,
+	path: '/',
+	component: Home
+});
+
+const concertRoute = new Route({
+	getParentRoute: () => rootRoute,
+	path: '/concert',
+	component: Concert
+});
+
+const adminRoute = new Route({
+	getParentRoute: () => rootRoute,
+	path: '/admin',
+	component: Admin
+});
+
+const notFoundRoute = new Route({
+	getParentRoute: () => rootRoute,
+	path: '*',
+	component: NotFound
+});
+
+const routeTree = rootRoute.addChildren([
+	indexRoute,
+	concertRoute,
+	adminRoute,
+	notFoundRoute
+]);
+
+const router = new Router({ routeTree });
+
+declare module '@tanstack/react-router' {
+	// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+	interface Register {
+		router: typeof router;
+	}
+}
+
+const App = () => <RouterProvider router={router} />;
 
 export default App;
