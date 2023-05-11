@@ -97,7 +97,7 @@ declare module '@tanstack/react-router' {
 
 const App = () => (
 	<UserProvider>
-		<RouterProvider router={router} />;
+		<RouterProvider router={router} />
 	</UserProvider>
 );
 
