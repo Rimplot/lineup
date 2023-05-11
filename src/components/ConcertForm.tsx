@@ -1,98 +1,92 @@
-import { FC } from 'react';
-import { Formik, FormikProps, Form, Field } from 'formik';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { TextField, Button } from '@mui/material';
 import { Timestamp } from 'firebase/firestore';
 
-type ConcertFormValues = {
-	artistName: string;
-	shortDescription: string;
-	fullDescription: string;
-	imageUrl: string;
-	date: Timestamp;
-	stage: string;
+import { Concert } from '../firebase/concertsService';
+
+type Props = {
+	onSubmit: (concert: Concert) => void;
 };
 
-const ConcertForm: FC = () => {
-	const initialValues: ConcertFormValues = {
-		artistName: '',
-		shortDescription: '',
-		fullDescription: '',
-		imageUrl: '',
-		date: Timestamp.now(),
-		stage: ''
+const ConcertForm = ({ onSubmit }: Props) => {
+	const {
+		register,
+		handleSubmit,
+		formState: { errors }
+	} = useForm<Concert>();
+
+	const [date, setDate] = useState<Timestamp>();
+
+	const onSubmitForm = (data: Concert) => {
+		data.date = date ?? Timestamp.now();
+		onSubmit(data);
 	};
 
 	return (
-		<div>
-			<h1>Add Concert</h1>
-			<Formik
-				initialValues={initialValues}
-				onSubmit={(values, actions) => {
-					console.log({ values, actions });
-					alert(JSON.stringify(values, null, 2));
-					actions.setSubmitting(false);
-				}}
-			>
-				{({
-					values,
-					errors,
-					touched,
-					handleChange,
-					handleBlur,
-					handleSubmit,
-					isSubmitting
-				}: FormikProps<ConcertFormValues>) => (
-					<Form onSubmit={handleSubmit}>
-						<label htmlFor="artistName">Artist Name</label>
-						<Field
-							id="artistName"
-							name="artistName"
-							placeholder="Artist Name"
-						/>
-						{errors.artistName && touched.artistName && (
-							<div>{errors.artistName}</div>
-						)}
-
-						<label htmlFor="shortDescription">Short Description</label>
-						<Field
-							id="shortDescription"
-							name="shortDescription"
-							placeholder="Short Description"
-						/>
-						{errors.shortDescription && touched.shortDescription && (
-							<div>{errors.shortDescription}</div>
-						)}
-
-						<label htmlFor="fullDescription">Full Description</label>
-						<Field
-							id="fullDescription"
-							name="fullDescription"
-							placeholder="Full Description"
-						/>
-						{errors.fullDescription && touched.fullDescription && (
-							<div>{errors.fullDescription}</div>
-						)}
-
-						<label htmlFor="imageUrl">Image URL</label>
-						<Field id="imageUrl" name="imageUrl" placeholder="Image URL" />
-						{errors.imageUrl && touched.imageUrl && (
-							<div>{errors.imageUrl}</div>
-						)}
-
-						{/* <label htmlFor="date">Date</label>
-						<Field id="date" name="date" type="date" placeholder="Date" />
-						{errors.date && touched.date && <div>{errors.date >> .toDate()}</div>} */}
-
-						<label htmlFor="stage">Stage</label>
-						<Field id="stage" name="stage" placeholder="Stage" />
-						{errors.stage && touched.stage && <div>{errors.stage}</div>}
-
-						<button type="submit" disabled={isSubmitting}>
-							Submit
-						</button>
-					</Form>
-				)}
-			</Formik>
-		</div>
+		<form onSubmit={handleSubmit(onSubmitForm)}>
+			<TextField
+				label="Artist Name"
+				variant="outlined"
+				fullWidth
+				{...register('artist.name', { required: true })}
+				error={errors.artist?.name ? true : false}
+				helperText={errors.artist?.name ? 'Artist Name is required' : ''}
+			/>
+			<TextField
+				label="Short Description"
+				variant="outlined"
+				fullWidth
+				{...register('artist.shortDescription')}
+			/>
+			<TextField
+				label="Full Description"
+				variant="outlined"
+				fullWidth
+				{...register('artist.fullDescription')}
+			/>
+			<TextField
+				label="Image URL"
+				variant="outlined"
+				fullWidth
+				{...register('artist.imageUrl', {
+					pattern: {
+						value: /^https?:\/\/\S+$/i,
+						message: 'Invalid URL'
+					}
+				})}
+				error={errors.artist?.imageUrl ? true : false}
+				helperText={
+					errors.artist?.imageUrl
+						? errors.artist.imageUrl.message
+						: 'Enter URL of the artist image'
+				}
+			/>
+			<TextField
+				label="Date"
+				variant="outlined"
+				fullWidth
+				type="datetime-local"
+				// {...register('date', { required: true })}
+				value={date?.toDate().toLocaleString()}
+				onChange={e =>
+					setDate(Timestamp.fromMillis(Date.parse(e.target.value)))
+				}
+				error={errors.date ? true : false}
+				helperText={errors.date ? 'Date is required' : ''}
+			/>
+			<TextField
+				label="Stage"
+				variant="outlined"
+				fullWidth
+				{...register('stage', { required: true })}
+				error={errors.stage ? true : false}
+				helperText={errors.stage ? 'Stage is required' : ''}
+			/>
+			<Button type="submit" variant="contained" sx={{ mt: 2 }}>
+				Create Concert
+			</Button>
+		</form>
 	);
 };
 

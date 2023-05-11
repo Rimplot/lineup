@@ -20,6 +20,7 @@ import {
 	createConcert,
 	deleteConcert
 } from '../firebase/concertsService';
+import ConcertForm from '../components/ConcertForm';
 
 const Admin = () => {
 	const user = useLoggedInUser();
@@ -57,7 +58,7 @@ const Admin = () => {
 					<Typography>Hello {user.email}</Typography>
 					<Button onClick={signOut}>Test sign out</Button>
 					<Button onClick={handleClick}>Add Concert</Button>
-
+					<ConcertForm onSubmit={createConcert} />
 					{!!concerts.length && (
 						<Box
 							sx={{
