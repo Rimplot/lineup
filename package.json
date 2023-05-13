@@ -15,13 +15,16 @@
     "@haaxor1689/eslint-config": "^2.0.6",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.3",
+    "@mui/x-date-pickers": "^6.4.0",
     "@tanstack/react-router": "^0.0.1-beta.83",
+    "dayjs": "^1.11.7",
     "firebase": "^9.21.0",
     "formik": "^2.2.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
     "sanitize.css": "^13.0.0",
+    "use-file-picker": "^1.6.1",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

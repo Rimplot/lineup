@@ -1,5 +1,4 @@
 import {
-	addDoc,
 	collection,
 	CollectionReference,
 	deleteDoc,
@@ -44,6 +43,6 @@ export const deleteConcert = async (id: string) => {
 	await deleteDoc(concertDocument(id));
 };
 
-export const editConcert = async (concert: Required<Concert>) => {
-	await setDoc(concertDocument(concert.id), concert);
+export const editConcert = async (concert: Concert) => {
+	await setDoc(concertDocument(concert.id!), concert);
 };

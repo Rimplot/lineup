@@ -6,6 +6,7 @@ import {
 	Router,
 	RouterProvider
 } from '@tanstack/react-router';
+import './App.css';
 import {
 	AppBar,
 	Container,
@@ -13,8 +14,8 @@ import {
 	ThemeProvider,
 	Toolbar
 } from '@mui/material';
-
-import './App.css';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers';
 
 import theme from './theme';
 import Home from './pages/Home';
@@ -96,9 +97,11 @@ declare module '@tanstack/react-router' {
 }
 
 const App = () => (
-	<UserProvider>
-		<RouterProvider router={router} />
-	</UserProvider>
+	<LocalizationProvider dateAdapter={AdapterDayjs}>
+		<UserProvider>
+			<RouterProvider router={router} />
+		</UserProvider>
+	</LocalizationProvider>
 );
 
 export default App;

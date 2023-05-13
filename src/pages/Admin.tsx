@@ -9,8 +9,8 @@ import {
 	Typography
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { Timestamp, onSnapshot } from 'firebase/firestore';
-import { Delete } from '@mui/icons-material';
+import { onSnapshot } from 'firebase/firestore';
+import { Delete, Edit } from '@mui/icons-material';
 
 import useLoggedInUser from '../hooks/useLoggedInUser';
 import { signIn, signOut, signUp } from '../firebase/authService';
@@ -18,9 +18,10 @@ import {
 	Concert,
 	concertsCollection,
 	createConcert,
-	deleteConcert
+	deleteConcert,
+	editConcert
 } from '../firebase/concertsService';
-import ConcertForm from '../components/ConcertForm';
+import ConcertFormDialog from '../components/ConcertFromDialog';
 
 const Admin = () => {
 	const user = useLoggedInUser();
@@ -35,21 +36,6 @@ const Admin = () => {
 		[]
 	);
 
-	const handleClick = async () => {
-		await createConcert({
-			date: Timestamp.now(),
-			stage: 'Main Stage',
-			artist: {
-				name: 'Timmy Trumpet',
-				shortDescription:
-					'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris egestas metus nisi, a facilisis lacus commodo id. In laoreet suscipit lorem in vulputate.',
-				fullDescription:
-					'Quisque gravida orci eget ante maximus congue. Aliquam scelerisque arcu sit amet turpis tempor mattis id quis massa. Nullam eleifend tristique lacus tempor venenatis. Morbi gravida cursus quam, sed euismod felis ultrices in. Mauris imperdiet ac purus nec pharetra. Duis consequat posuere nisi vel blandit.',
-				imageUrl: 'image url'
-			}
-		});
-	};
-
 	return (
 		<>
 			<Typography>Admin page</Typography>
@@ -57,32 +43,52 @@ const Admin = () => {
 				<>
 					<Typography>Hello {user.email}</Typography>
 					<Button onClick={signOut}>Test sign out</Button>
-					<Button onClick={handleClick}>Add Concert</Button>
-					<ConcertForm onSubmit={createConcert} />
+					<ConcertFormDialog onSubmit={createConcert}>
+						{open => (
+							<Button onClick={open} variant="contained">
+								Add Concert
+							</Button>
+						)}
+					</ConcertFormDialog>
 					{!!concerts.length && (
 						<Box
 							sx={{
 								display: 'flex',
 								gap: 2,
 								flexDirection: 'row',
-								flexWrap: 'wrap'
+								flexWrap: 'wrap',
+								width: '100%'
 							}}
 						>
-							<Typography>Concerts list</Typography>
 							{concerts.map(c => (
 								<Card key={c.date.seconds}>
 									<CardContent>
 										<Typography fontWeight="bold">{c.artist.name}</Typography>
+										<Box
+											component="img"
+											sx={{
+												height: 233,
+												width: 350,
+												maxHeight: { xs: 233, md: 167 },
+												maxWidth: { xs: 350, md: 250 }
+											}}
+											src={c.artist.imageUrl}
+										/>
+
 										<Typography fontWeight="bold">{c.stage}</Typography>
 										<Typography fontWeight="bold">
 											{c.date.toDate().toLocaleString()}
 										</Typography>
-										<Divider sx={{ my: 2 }} />
-										<Typography fontWeight="bold">
-											{c.artist.shortDescription}
-										</Typography>
+										<Divider sx={{ my: 1 }} />
 									</CardContent>
-									<CardActions>
+									<CardActions sx={{ justifyContent: 'space-between' }}>
+										<ConcertFormDialog onSubmit={editConcert} concert={c}>
+											{open => (
+												<IconButton onClick={open} color="info" title="Edit">
+													<Edit />
+												</IconButton>
+											)}
+										</ConcertFormDialog>
 										<IconButton
 											onClick={() => deleteConcert(c.id!)}
 											color="error"
