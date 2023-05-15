@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material';
 
-const Concert = () => <Typography>Detail page</Typography>;
+const Detail = () => <Typography>Detail page</Typography>;
 
-export default Concert;
+export default Detail;

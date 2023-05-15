@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material';
 
-const Concert = () => <Typography>Schedule page</Typography>;
+const Schedule = () => <Typography>Schedule page</Typography>;
 
-export default Concert;
+export default Schedule;
