@@ -9,6 +9,8 @@ import {
 import './App.css';
 import {
 	AppBar,
+	BottomNavigation,
+	BottomNavigationAction,
 	Container,
 	CssBaseline,
 	ThemeProvider,
@@ -17,6 +19,7 @@ import {
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { Schedule } from '@mui/icons-material';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 import theme from './theme';
 import Home from './pages/Home';
@@ -29,10 +32,12 @@ import Detail from './pages/Detail';
 import About from './pages/About';
 import { LanguageProvider, useTranslation } from './hooks/useTranslation';
 import LanguageSwitch from './components/LanguageSwitch';
+import { useState } from 'react';
 
 const rootRoute = new RootRoute({
 	component: () => {
 		const t = useTranslation();
+
 		return (
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
@@ -65,6 +70,10 @@ const rootRoute = new RootRoute({
 				>
 					<Outlet />
 				</Container>
+
+				<BottomNavigation>
+					<a href="https://github.com/Rimplot/lineup">Github</a>
+				</BottomNavigation>
 			</ThemeProvider>
 		);
 	}
