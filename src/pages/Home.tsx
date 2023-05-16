@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, Typography } from '@mui/material';
+import { Box, Button, Container, Grid, Stack, Typography } from '@mui/material';
 import Countdown from '../components/Countdown';
 import PerformersGrid from '../components/PerformersGrid';
 import { useRef } from 'react';
@@ -48,9 +48,24 @@ const Home = () => {
 				</Box>
 			</Box>
 			<Container>
-				<Box display="flex" justifyContent="center" my={4}>
+				{/* <Box display="flex" justifyContent="center" alignItems="center" my={4}> */}
+				<Stack
+					direction={{ xs: 'column', md: 'row' }}
+					spacing={2}
+					sx={{ alignItems: 'center', justifyContent: 'center', my: 4 }}
+				>
 					<Countdown deadline={new Date(+new Date() + 123456789)} />
-				</Box>
+					<Typography
+						variant="h3"
+						style={{
+							fontWeight: 'bold',
+							paddingBottom: '0.4em'
+						}}
+					>
+						until the start
+					</Typography>
+				</Stack>
+				{/* </Box> */}
 				<Box ref={ref}>
 					<PerformersGrid />
 				</Box>
