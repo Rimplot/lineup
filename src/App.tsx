@@ -29,29 +29,15 @@ const rootRoute = new RootRoute({
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
 
-			<AppBar sx={{ position: 'sticky', width: '100%' }}>
-				<Container maxWidth="sm">
+			<AppBar position="sticky">
+				<Container>
 					<Toolbar disableGutters sx={{ gap: 2 }}>
 						<Link to="/concert">Concert</Link>
 					</Toolbar>
 				</Container>
 			</AppBar>
 
-			<Container
-				maxWidth="sm"
-				component="main"
-				sx={{
-					display: 'flex',
-					flexDirection: 'column',
-					justifyContent: 'center',
-					alignItems: 'center',
-					flexGrow: 1,
-					gap: 2,
-					my: 4
-				}}
-			>
-				<Outlet />
-			</Container>
+			<Outlet />
 		</ThemeProvider>
 	)
 });
