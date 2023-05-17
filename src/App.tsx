@@ -23,21 +23,24 @@ import Concert from './pages/Concert';
 import Admin from './pages/Admin';
 import NotFound from './pages/NotFound';
 import { UserProvider } from './hooks/useLoggedInUser';
+import { FavoritesProvider } from './hooks/useFavorites';
 
 const rootRoute = new RootRoute({
 	component: () => (
 		<ThemeProvider theme={theme}>
-			<CssBaseline />
+			<FavoritesProvider>
+				<CssBaseline />
 
-			<AppBar position="sticky">
-				<Container>
-					<Toolbar disableGutters sx={{ gap: 2 }}>
-						<Link to="/concert">Concert</Link>
-					</Toolbar>
-				</Container>
-			</AppBar>
+				<AppBar position="sticky">
+					<Container>
+						<Toolbar disableGutters sx={{ gap: 2 }}>
+							<Link to="/concert">Concert</Link>
+						</Toolbar>
+					</Container>
+				</AppBar>
 
-			<Outlet />
+				<Outlet />
+			</FavoritesProvider>
 		</ThemeProvider>
 	)
 });

@@ -15,7 +15,10 @@ import {
 import { Artist, Concert } from '../firebase/concertsService';
 import { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Timestamp } from 'firebase/firestore';
+import useFavorites from '../hooks/useFavorites';
+import { StageDetails } from '../model/Stages';
 
 type GridItemProps = {
 	concert: Concert;
@@ -23,6 +26,9 @@ type GridItemProps = {
 
 const GridItem = ({ concert }: GridItemProps) => {
 	const [detailsOpen, setDetailsOpen] = useState(false);
+
+	const { isFavorite, addFavorite, removeFavorite } = useFavorites();
+	const favorite = isFavorite(concert.id!);
 
 	const toggleDrawer =
 		(open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -88,7 +94,8 @@ const GridItem = ({ concert }: GridItemProps) => {
 						<Box sx={{ textTransform: 'uppercase' }}>
 							<Typography variant="h5">{concert.artist.name}</Typography>
 							<Typography variant="overline">
-								{concert.stage} | {concert.date.toDate().toLocaleString()}
+								{StageDetails[concert.stage].name} |{' '}
+								{concert.date.toDate().toLocaleString()}
 							</Typography>
 						</Box>
 						<Typography variant="body2">
@@ -109,19 +116,25 @@ const GridItem = ({ concert }: GridItemProps) => {
 								sx: { width: '90%', maxWidth: '800px' }
 							}}
 						>
-							<Box
-								position="relative"
-								role="presentation"
-								onClick={toggleDrawer(false)}
-								onKeyDown={toggleDrawer(false)}
-							>
+							<Box position="relative" role="presentation">
 								<Box position="absolute" top={16} left={16}>
-									<IconButton
-										aria-label="delete"
-										onClick={toggleDrawer(false)}
-										sx={{ backgroundColor: '#ffffff' }}
-									>
+									<IconButton aria-label="close" onClick={toggleDrawer(false)}>
 										<CloseIcon />
+									</IconButton>
+								</Box>
+								<Box position="absolute" top={16} right={16}>
+									<IconButton
+										aria-label="favorite"
+										onClick={() =>
+											favorite
+												? removeFavorite(concert.id ?? '')
+												: addFavorite(concert.id ?? '')
+										}
+										sx={{
+											color: favorite ? 'red' : 'inherit'
+										}}
+									>
+										<FavoriteIcon />
 									</IconButton>
 								</Box>
 								{/* <List>
@@ -181,28 +194,15 @@ const GridItem = ({ concert }: GridItemProps) => {
 	);
 };
 
-const concert = {
-	stage: 'Coca Cola Stage',
-	date: new Timestamp(new Date('2023-05-29 20:00').getTime() / 1000, 0),
-	artist: {
-		name: 'The Doors',
-		imageUrl:
-			'https://upload.wikimedia.org/wikipedia/commons/6/69/The_Doors_1968.JPG',
-		shortDescription:
-			"The Doors were an American rock band formed in Los Angeles in 1965, with vocalist Jim Morrison, keyboardist Ray Manzarek, guitarist Robby Krieger, and drummer John Densmore. They were among the most influential and controversial rock acts of the 1960s, partly due to Morrison's lyrics and voice.",
-		fullDescription:
-			"The Doors were an American rock band formed in Los Angeles in 1965, with vocalist Jim Morrison, keyboardist Ray Manzarek, guitarist Robby Krieger, and drummer John Densmore. They were among the most influential and controversial rock acts of the 1960s, partly due to Morrison's lyrics and voice, along with his erratic stage persona. The group is widely regarded as an important figure of the era's counterculture.\nThe band took its name from the title of Aldous Huxley's book The Doors of Perception, itself a reference to a quote by William Blake. After signing with Elektra Records in 1966, the Doors with Morrison recorded and released six studio albums in five years, some of which are generally considered among the greatest of all time, including their self-titled debut (1967), Strange Days (1967), and L.A. Woman (1971). Dubbed the \"Kings of Acid Rock\", they were one of the most successful bands during that time and by 1972 the Doors had sold over 4 million albums domestically and nearly 8 million singles.\nMorrison died in uncertain circumstances in 1971. The band continued as a trio until disbanding in 1973. They released three more albums in the 1970s, one of which featured earlier recordings by Morrison, and over the decades reunited on stage in various configurations. In 2002, Manzarek, Krieger, and Ian Astbury of the Cult on vocals started performing as \"The Doors of the 21st Century\". Densmore and the Morrison estate successfully sued them over the use of the band's name. After a short time as Riders on the Storm, they settled on the name Manzarek–Krieger and toured until Manzarek's death in 2013."
-	}
-} as Concert;
+type PerformersGridProps = {
+	concerts: Array<Concert>;
+};
 
-const PerformersGrid = () => (
+const PerformersGrid = ({ concerts }: PerformersGridProps) => (
 	<Grid container spacing={0}>
-		<GridItem concert={concert} />
-		<GridItem concert={concert} />
-		<GridItem concert={concert} />
-		<GridItem concert={concert} />
-		<GridItem concert={concert} />
-		<GridItem concert={concert} />
+		{concerts.map((concert, index) => (
+			<GridItem concert={concert} key={index} />
+		))}
 	</Grid>
 );
 

@@ -12,6 +12,19 @@ const theme = responsiveFontSizes(
 						minHeight: '100vh'
 					}
 				}
+			},
+			MuiIconButton: {
+				styleOverrides: {
+					root: {
+						'fill': '#606060',
+						'backgroundColor': 'white',
+						'opacity': 0.8,
+						'&:hover': {
+							backgroundColor: 'white',
+							opacity: 1
+						}
+					}
+				}
 			}
 		}
 	})

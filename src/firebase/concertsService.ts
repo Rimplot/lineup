@@ -15,6 +15,7 @@ export type Artist = {
 	shortDescription: string;
 	fullDescription: string;
 	imageUrl: string;
+	genre: string;
 };
 
 export type Concert = {
