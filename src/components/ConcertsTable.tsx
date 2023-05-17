@@ -145,7 +145,7 @@ const ConcertsTable = ({ concerts }: ConcertsTableProps) => {
 									<MenuItem value="">None</MenuItem>
 									{Object.keys(StageDetails).map(id => (
 										<MenuItem key={id} value={id}>
-											{StageDetails[id].name}
+											{id /* TODO: replace with full stage name */}
 										</MenuItem>
 									))}
 								</Select>
@@ -161,7 +161,7 @@ const ConcertsTable = ({ concerts }: ConcertsTableProps) => {
 									<MenuItem value="">None</MenuItem>
 									{Object.keys(GenreDetails).map(id => (
 										<MenuItem key={id} value={id}>
-											{GenreDetails[id].name}
+											{id /* TODO: replace with full genre name */}
 										</MenuItem>
 									))}
 								</Select>

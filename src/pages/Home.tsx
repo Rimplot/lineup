@@ -1,12 +1,12 @@
 import { Box, Button, Container, Grid, Stack, Typography } from '@mui/material';
 import Countdown from '../components/Countdown';
 import PerformersGrid from '../components/PerformersGrid';
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState, useEffect } from 'react';
 import jumbotron_bg from '../assets/home_jumbotron_bg.jpg';
 import useFavorites from '../hooks/useFavorites';
 import ConcertsTable from '../components/ConcertsTable';
-import { Timestamp } from 'firebase/firestore';
-import { Concert } from '../firebase/concertsService';
+import { Timestamp, onSnapshot } from 'firebase/firestore';
+import { Concert, concertsCollection } from '../firebase/concertsService';
 
 const concert = {
 	id: 'thedoors',
@@ -40,7 +40,7 @@ const concert2 = {
 	}
 } as Concert;
 
-const concerts = [concert, concert2, concert, concert, concert, concert2];
+const concertsMock = [concert, concert2, concert, concert, concert, concert2];
 
 const Home = () => {
 	const ref = useRef<any>(null);
@@ -49,6 +49,16 @@ const Home = () => {
 	const handleClick = () => {
 		ref.current?.scrollIntoView({ behavior: 'smooth' });
 	};
+
+	const [concerts, setConcerts] = useState<Concert[]>([]);
+
+	useEffect(
+		() =>
+			onSnapshot(concertsCollection, snapshot =>
+				setConcerts(snapshot.docs.map(doc => doc.data()))
+			),
+		[]
+	);
 
 	return (
 		<>

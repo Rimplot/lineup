@@ -10,19 +10,22 @@ import {
 } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import { db } from './firebaseConfig';
+import { Stages } from '../model/Stages';
+import { Genres } from '../model/Genres';
 
 export type Artist = {
 	name: string;
 	shortDescription: string;
 	fullDescription: string;
 	imageUrl: string;
+	genre: Genres;
 };
 
 export type Concert = {
 	id?: string;
 	artist: Artist;
 	date: Timestamp;
-	stage: string;
+	stage: Stages;
 };
 
 export const concertsCollection = collection(
