@@ -18,23 +18,27 @@ import {
 	Concert,
 	concertsCollection,
 	createConcert,
+	deadlineDocument,
 	deleteConcert,
 	editConcert
 } from '../firebase/concertsService';
 import ConcertFormDialog from '../components/ConcertFromDialog';
+import DeadlineDialog from '../components/DeadlineDialog';
 
 const Admin = () => {
 	const user = useLoggedInUser();
 
 	const [concerts, setConcerts] = useState<Concert[]>([]);
+	const [deadline, setDeadline] = useState<Date>(new Date());
 
-	useEffect(
-		() =>
-			onSnapshot(concertsCollection, snapshot =>
-				setConcerts(snapshot.docs.map(doc => doc.data()))
-			),
-		[]
-	);
+	useEffect(() => {
+		onSnapshot(concertsCollection, snapshot =>
+			setConcerts(snapshot.docs.map(doc => doc.data()))
+		);
+		onSnapshot(deadlineDocument(), snapshot =>
+			setDeadline(snapshot.data()?.timestamp.toDate() ?? new Date())
+		);
+	}, []);
 
 	return (
 		<>
@@ -43,6 +47,18 @@ const Admin = () => {
 				<>
 					<Typography>Hello {user.email}</Typography>
 					<Button onClick={signOut}>Test sign out</Button>
+					<Box>
+						<Typography>
+							Current deadline: {deadline.toLocaleString()}
+						</Typography>
+						<DeadlineDialog initialDate={deadline}>
+							{open => (
+								<Button onClick={open} variant="outlined">
+									Set new deadline
+								</Button>
+							)}
+						</DeadlineDialog>
+					</Box>
 					<ConcertFormDialog onSubmit={createConcert}>
 						{open => (
 							<Button onClick={open} variant="contained">

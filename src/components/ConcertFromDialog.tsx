@@ -1,10 +1,12 @@
 import {
-	Box,
 	Button,
+	Checkbox,
 	Dialog,
 	DialogActions,
 	DialogContent,
 	DialogTitle,
+	FormControlLabel,
+	MenuItem,
 	TextField,
 	Typography
 } from '@mui/material';
@@ -15,6 +17,8 @@ import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 
 import { Concert } from '../firebase/concertsService';
+import { StageDetails } from '../model/Stages';
+import { GenreDetails } from '../model/Genres';
 
 import FilePicker from './FilePicker';
 
@@ -72,56 +76,94 @@ const ConcertFormDialog = ({ children, onSubmit, concert }: Props) => {
 					sx={{
 						display: 'flex',
 						flexDirection: 'column',
-						gap: 2,
+						gap: 3,
 						minWidth: 500
 					}}
 				>
-					<Box>
-						<TextField
-							label="Artist Name"
-							variant="outlined"
-							defaultValue={concert?.artist.name}
-							fullWidth
-							{...register('artist.name', { required: true })}
-							error={errors.artist?.name ? true : false}
-							helperText={errors.artist?.name ? 'Artist Name is required' : ''}
-						/>
-						<TextField
-							label="Short Description"
-							variant="outlined"
-							defaultValue={concert?.artist.shortDescription}
-							fullWidth
-							{...register('artist.shortDescription')}
-						/>
-						<TextField
-							label="Full Description"
-							variant="outlined"
-							defaultValue={concert?.artist.fullDescription}
-							fullWidth
-							{...register('artist.fullDescription')}
-						/>
-						<TextField
-							label="Stage"
-							variant="outlined"
-							defaultValue={concert?.stage}
-							fullWidth
-							{...register('stage', { required: true })}
-							error={errors.stage ? true : false}
-							helperText={errors.stage ? 'Stage is required' : ''}
-						/>
-						<LocalizationProvider>
-							<DateTimePicker
-								sx={{ width: '100%' }}
-								label="Date"
-								value={dayjs(date)}
-								onChange={newValue => setDate(newValue?.toDate() ?? null)}
+					<TextField
+						label="Artist Name"
+						variant="outlined"
+						defaultValue={concert?.artist.name}
+						fullWidth
+						{...register('artist.name', { required: true })}
+						error={errors.artist?.name ? true : false}
+						helperText={errors.artist?.name ? 'Artist Name is required' : ''}
+					/>
+					<FormControlLabel
+						control={
+							<Checkbox
+								defaultChecked={concert?.headliner ?? false}
+								{...register('headliner')}
 							/>
-						</LocalizationProvider>
-						<FilePicker
-							setFiles={setselectedFileString}
-							image={concert?.artist.imageUrl}
+						}
+						label="Is Headliner"
+					/>
+					<TextField
+						label="Short Description"
+						variant="outlined"
+						defaultValue={concert?.artist.shortDescription}
+						fullWidth
+						multiline
+						rows={3}
+						maxRows={5}
+						{...register('artist.shortDescription')}
+					/>
+					<TextField
+						label="Full Description"
+						variant="outlined"
+						defaultValue={concert?.artist.fullDescription}
+						fullWidth
+						multiline
+						rows={6}
+						maxRows={10}
+						{...register('artist.fullDescription')}
+					/>
+					<TextField
+						select
+						label="Genre"
+						variant="outlined"
+						defaultValue={concert?.artist.genre ?? 'none'}
+						fullWidth
+						{...register('artist.genre', { required: true })}
+						error={errors.stage ? true : false}
+						helperText={errors.stage ? 'Genre is required' : ''}
+					>
+						<MenuItem value="none">None</MenuItem>
+						{Object.keys(GenreDetails).map(key => (
+							<MenuItem key={key} value={key}>
+								{GenreDetails[key].name}
+							</MenuItem>
+						))}
+					</TextField>
+					<TextField
+						select
+						label="Stage"
+						variant="outlined"
+						defaultValue={concert?.stage ?? 'none'}
+						fullWidth
+						{...register('stage', { required: true })}
+						error={errors.stage ? true : false}
+						helperText={errors.stage ? 'Stage is required' : ''}
+					>
+						<MenuItem value="none">None</MenuItem>
+						{Object.keys(StageDetails).map(key => (
+							<MenuItem key={key} value={key}>
+								{StageDetails[key].name}
+							</MenuItem>
+						))}
+					</TextField>
+					<LocalizationProvider>
+						<DateTimePicker
+							sx={{ width: '100%' }}
+							label="Date"
+							value={dayjs(date)}
+							onChange={newValue => setDate(newValue?.toDate() ?? null)}
 						/>
-					</Box>
+					</LocalizationProvider>
+					<FilePicker
+						setFiles={setselectedFileString}
+						image={concert?.artist.imageUrl}
+					/>
 				</DialogContent>
 				<DialogActions>
 					{submitError && (

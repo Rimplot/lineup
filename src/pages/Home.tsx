@@ -1,12 +1,17 @@
-import { Box, Button, Container, Grid, Stack, Typography } from '@mui/material';
+import { Box, Button, Container, Stack, Typography } from '@mui/material';
+import { useRef, useState, useEffect } from 'react';
+import { Timestamp, onSnapshot } from 'firebase/firestore';
+
 import Countdown from '../components/Countdown';
 import PerformersGrid from '../components/PerformersGrid';
-import { useCallback, useRef, useState, useEffect } from 'react';
 import jumbotron_bg from '../assets/home_jumbotron_bg.jpg';
 import useFavorites from '../hooks/useFavorites';
 import ConcertsTable from '../components/ConcertsTable';
-import { Timestamp, onSnapshot } from 'firebase/firestore';
-import { Concert, concertsCollection } from '../firebase/concertsService';
+import {
+	Concert,
+	concertsCollection,
+	deadlineDocument
+} from '../firebase/concertsService';
 
 const concert = {
 	id: 'thedoors',
@@ -51,14 +56,16 @@ const Home = () => {
 	};
 
 	const [concerts, setConcerts] = useState<Concert[]>([]);
+	const [deadline, setDeadline] = useState<Date>(new Date());
 
-	useEffect(
-		() =>
-			onSnapshot(concertsCollection, snapshot =>
-				setConcerts(snapshot.docs.map(doc => doc.data()))
-			),
-		[]
-	);
+	useEffect(() => {
+		onSnapshot(concertsCollection, snapshot =>
+			setConcerts(snapshot.docs.map(doc => doc.data()))
+		);
+		onSnapshot(deadlineDocument(), snapshot =>
+			setDeadline(snapshot.data()?.timestamp.toDate() ?? new Date())
+		);
+	}, []);
 
 	return (
 		<>
@@ -102,7 +109,7 @@ const Home = () => {
 					spacing={2}
 					sx={{ alignItems: 'center', justifyContent: 'center', my: 4 }}
 				>
-					<Countdown deadline={new Date(+new Date() + 123456789)} />
+					<Countdown deadline={deadline} />
 					<Typography
 						variant="h3"
 						style={{

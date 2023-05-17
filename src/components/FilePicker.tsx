@@ -19,6 +19,8 @@ const FilePicker = ({ setFiles, image }: Props) => {
 	useEffect(() => {
 		if (filesContent.length > 0) {
 			setFiles(filesContent[0].content);
+		} else if (image) {
+			setFiles(image);
 		}
 	}, [filesContent]);
 

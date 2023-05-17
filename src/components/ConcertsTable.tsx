@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -8,23 +6,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { visuallyHidden } from '@mui/utils';
-import { Timestamp } from 'firebase/firestore';
-import { Concert } from '../firebase/concertsService';
 import { useState } from 'react';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import useFavorites from '../hooks/useFavorites';
 import {
 	ClickAwayListener,
 	FormControl,
@@ -34,6 +23,9 @@ import {
 	Select,
 	SelectChangeEvent
 } from '@mui/material';
+
+import useFavorites from '../hooks/useFavorites';
+import { Concert } from '../firebase/concertsService';
 import { StageDetails } from '../model/Stages';
 import { GenreDetails } from '../model/Genres';
 
@@ -143,9 +135,9 @@ const ConcertsTable = ({ concerts }: ConcertsTableProps) => {
 									onChange={handleStageChange}
 								>
 									<MenuItem value="">None</MenuItem>
-									{Object.keys(StageDetails).map(id => (
-										<MenuItem key={id} value={id}>
-											{id /* TODO: replace with full stage name */}
+									{Object.keys(StageDetails).map(key => (
+										<MenuItem key={key} value={key}>
+											{StageDetails[key].name}
 										</MenuItem>
 									))}
 								</Select>
@@ -159,9 +151,9 @@ const ConcertsTable = ({ concerts }: ConcertsTableProps) => {
 									onChange={handleGenreChange}
 								>
 									<MenuItem value="">None</MenuItem>
-									{Object.keys(GenreDetails).map(id => (
-										<MenuItem key={id} value={id}>
-											{id /* TODO: replace with full genre name */}
+									{Object.keys(GenreDetails).map(key => (
+										<MenuItem key={key} value={key}>
+											{GenreDetails[key].name}
 										</MenuItem>
 									))}
 								</Select>

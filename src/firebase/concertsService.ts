@@ -4,14 +4,15 @@ import {
 	deleteDoc,
 	doc,
 	DocumentReference,
-	getFirestore,
 	setDoc,
 	Timestamp
 } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
-import { db } from './firebaseConfig';
+
 import { Stages } from '../model/Stages';
 import { Genres } from '../model/Genres';
+
+import { db } from './firebaseConfig';
 
 export type Artist = {
 	name: string;
@@ -26,6 +27,7 @@ export type Concert = {
 	artist: Artist;
 	date: Timestamp;
 	stage: Stages;
+	headliner: boolean;
 };
 
 export const concertsCollection = collection(
@@ -47,4 +49,16 @@ export const deleteConcert = async (id: string) => {
 
 export const editConcert = async (concert: Concert) => {
 	await setDoc(concertDocument(concert.id!), concert);
+};
+
+// Countdown
+export type Deadline = {
+	timestamp: Timestamp;
+};
+
+export const deadlineDocument = () =>
+	doc(db, 'deadline', 'deadlineID') as DocumentReference<Deadline>;
+
+export const setDeadline = async (deadline: Deadline) => {
+	await setDoc(deadlineDocument(), deadline);
 };
