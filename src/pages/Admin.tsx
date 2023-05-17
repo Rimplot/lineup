@@ -4,6 +4,7 @@ import {
 	Card,
 	CardActions,
 	CardContent,
+	Container,
 	Divider,
 	IconButton,
 	Typography
@@ -22,7 +23,7 @@ import {
 	deleteConcert,
 	editConcert
 } from '../firebase/concertsService';
-import ConcertFormDialog from '../components/ConcertFromDialog';
+import ConcertFormDialog from '../components/ConcertFormDialog';
 import DeadlineDialog from '../components/DeadlineDialog';
 
 const Admin = () => {
@@ -41,7 +42,7 @@ const Admin = () => {
 	}, []);
 
 	return (
-		<>
+		<Container>
 			<Typography>Admin page</Typography>
 			{user ? (
 				<>
@@ -128,7 +129,7 @@ const Admin = () => {
 					</Button>
 				</>
 			)}
-		</>
+		</Container>
 	);
 };
 

@@ -29,9 +29,7 @@ const FilePicker = ({ setFiles, image }: Props) => {
 	}
 
 	return (
-		<Box sx={{ border: 'solid', padding: '3px', marginTop: '10px' }}>
-			<Button onClick={() => openFileSelector()}>Select files </Button>
-			<Divider />
+		<Box>
 			{!!image && filesContent.length === 0 && (
 				<Box
 					component="img"
@@ -61,6 +59,8 @@ const FilePicker = ({ setFiles, image }: Props) => {
 				</Box>
 			))}
 			{errors.length ? <Box>Error...select only one image.</Box> : null}
+			<Divider sx={{ my: 1 }} />
+			<Button onClick={() => openFileSelector()}>Upload photo </Button>
 		</Box>
 	);
 };

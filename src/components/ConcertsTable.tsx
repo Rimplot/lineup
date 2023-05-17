@@ -76,7 +76,7 @@ const ConcertsTable = ({ concerts }: ConcertsTableProps) => {
 		);
 		setRowCount(filtered.length);
 		return filtered;
-	}, [stage, genre]);
+	}, [stage, genre, concerts]);
 
 	const visibleConcerts = React.useMemo(
 		() =>

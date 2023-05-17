@@ -1,4 +1,5 @@
 import {
+	Box,
 	Button,
 	Checkbox,
 	Dialog,
@@ -71,7 +72,7 @@ const ConcertFormDialog = ({ children, onSubmit, concert }: Props) => {
 		<>
 			{children(() => setOpen(true))}
 			<Dialog open={open} onClose={closeDialog}>
-				<DialogTitle>Add Concert</DialogTitle>
+				<DialogTitle>{concert ? 'Edit Concert' : 'New Concert'}</DialogTitle>
 				<DialogContent
 					sx={{
 						display: 'flex',
@@ -80,6 +81,7 @@ const ConcertFormDialog = ({ children, onSubmit, concert }: Props) => {
 						minWidth: 500
 					}}
 				>
+					<Box sx={{ height: 4 }} />
 					<TextField
 						label="Artist Name"
 						variant="outlined"
@@ -125,10 +127,9 @@ const ConcertFormDialog = ({ children, onSubmit, concert }: Props) => {
 						defaultValue={concert?.artist.genre ?? 'none'}
 						fullWidth
 						{...register('artist.genre', { required: true })}
-						error={errors.stage ? true : false}
-						helperText={errors.stage ? 'Genre is required' : ''}
+						error={errors.artist?.genre ? true : false}
+						helperText={errors.artist?.genre ? 'Genre is required' : ''}
 					>
-						<MenuItem value="none">None</MenuItem>
 						{Object.keys(GenreDetails).map(key => (
 							<MenuItem key={key} value={key}>
 								{GenreDetails[key].name}
@@ -145,7 +146,6 @@ const ConcertFormDialog = ({ children, onSubmit, concert }: Props) => {
 						error={errors.stage ? true : false}
 						helperText={errors.stage ? 'Stage is required' : ''}
 					>
-						<MenuItem value="none">None</MenuItem>
 						{Object.keys(StageDetails).map(key => (
 							<MenuItem key={key} value={key}>
 								{StageDetails[key].name}

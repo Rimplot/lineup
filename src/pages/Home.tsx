@@ -49,7 +49,6 @@ const concertsMock = [concert, concert2, concert, concert, concert, concert2];
 
 const Home = () => {
 	const ref = useRef<any>(null);
-	const { addFavorite, removeFavorite } = useFavorites();
 
 	const handleClick = () => {
 		ref.current?.scrollIntoView({ behavior: 'smooth' });
@@ -125,7 +124,7 @@ const Home = () => {
 					<Typography variant="h2" my={4}>
 						Headliners
 					</Typography>
-					<PerformersGrid concerts={concerts} />
+					<PerformersGrid concerts={concerts.filter(c => c.headliner)} />
 				</Box>
 				<Box my={4} display="flex" />
 				<Box>
