@@ -30,15 +30,6 @@ const rootRoute = new RootRoute({
 		<ThemeProvider theme={theme}>
 			<FavoritesProvider>
 				<CssBaseline />
-
-				<AppBar position="sticky">
-					<Container>
-						<Toolbar disableGutters sx={{ gap: 2 }}>
-							<Link to="/concert">Concert</Link>
-						</Toolbar>
-					</Container>
-				</AppBar>
-
 				<Outlet />
 			</FavoritesProvider>
 		</ThemeProvider>

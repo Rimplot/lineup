@@ -9,13 +9,13 @@ import {
 	Timestamp
 } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
+import { db } from './firebaseConfig';
 
 export type Artist = {
 	name: string;
 	shortDescription: string;
 	fullDescription: string;
 	imageUrl: string;
-	genre: string;
 };
 
 export type Concert = {
@@ -24,8 +24,6 @@ export type Concert = {
 	date: Timestamp;
 	stage: string;
 };
-
-const db = getFirestore();
 
 export const concertsCollection = collection(
 	db,
