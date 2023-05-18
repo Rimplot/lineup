@@ -1,5 +1,4 @@
 import {
-	Link,
 	Outlet,
 	RootRoute,
 	Route,
@@ -7,13 +6,7 @@ import {
 	RouterProvider
 } from '@tanstack/react-router';
 import './App.css';
-import {
-	AppBar,
-	Container,
-	CssBaseline,
-	ThemeProvider,
-	Toolbar
-} from '@mui/material';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 

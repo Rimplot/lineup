@@ -1,10 +1,9 @@
 import { Box, Container, Paper, Typography } from '@mui/material';
-import Logo from '../assets/music-fav.svg';
 import { Link } from '@tanstack/react-router';
 
-interface FooterProps {}
+import Logo from '../assets/music-fav.svg';
 
-const Footer = ({}: FooterProps) => (
+const Footer = () => (
 	<Paper
 		sx={{ marginTop: '10vh', height: '10vh', bottom: 0 }}
 		component="footer"

@@ -1,6 +1,8 @@
 import { Typography } from '@mui/material';
+
 import { Concert } from '../firebase/concertsService';
 import useFavorites from '../hooks/useFavorites';
+
 import PerformersGrid from './PerformersGrid';
 
 type FavoritesGridProps = {

@@ -1,9 +1,9 @@
 import { Box, Drawer, IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+
 import { Concert } from '../firebase/concertsService';
 import useFavorites from '../hooks/useFavorites';
-import { useState } from 'react';
 
 type ConcertDrawerProps = {
 	concert: Concert;

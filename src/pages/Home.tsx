@@ -1,11 +1,10 @@
 import { Box, Button, Container, Stack, Typography } from '@mui/material';
 import { useRef, useState, useEffect } from 'react';
-import { Timestamp, onSnapshot } from 'firebase/firestore';
+import { onSnapshot } from 'firebase/firestore';
 
 import Countdown from '../components/Countdown';
 import PerformersGrid from '../components/PerformersGrid';
 import jumbotron_bg from '../assets/home_jumbotron_bg.jpg';
-import useFavorites from '../hooks/useFavorites';
 import ConcertsTable from '../components/ConcertsTable';
 import {
 	Concert,

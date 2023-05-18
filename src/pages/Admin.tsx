@@ -14,7 +14,7 @@ import { onSnapshot } from 'firebase/firestore';
 import { Delete, Edit } from '@mui/icons-material';
 
 import useLoggedInUser from '../hooks/useLoggedInUser';
-import { signIn, signOut, signUp } from '../firebase/authService';
+import { signOut } from '../firebase/authService';
 import {
 	Concert,
 	concertsCollection,
@@ -52,12 +52,12 @@ const Admin = () => {
 				<Typography
 					sx={{
 						alignSelf: 'center',
-						fontSize: '4rem',
+						fontSize: '3rem',
 						fontWeight: 'bold',
 						paddingBottom: '1.5rem'
 					}}
 				>
-					ADMIN PANEL
+					Admin Panel
 				</Typography>
 				{user ? (
 					<>

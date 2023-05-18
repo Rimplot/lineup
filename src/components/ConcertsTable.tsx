@@ -29,8 +29,9 @@ import useFavorites from '../hooks/useFavorites';
 import { Concert } from '../firebase/concertsService';
 import { StageDetails } from '../model/Stages';
 import { GenreDetails } from '../model/Genres';
-import ConcertDrawer from './ConcertDrawer';
 import useDrawer from '../hooks/useDrawer';
+
+import ConcertDrawer from './ConcertDrawer';
 
 type ConcertRowProps = {
 	concert: Concert;
@@ -94,7 +95,7 @@ const ConcertsTable = ({ concerts }: ConcertsTableProps) => {
 		setGenre(event.target.value as string);
 	};
 
-	const handleChangePage = (event: unknown, newPage: number) => {
+	const handleChangePage = (_event: unknown, newPage: number) => {
 		setPage(newPage);
 	};
 

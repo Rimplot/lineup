@@ -1,27 +1,10 @@
-import {
-	Box,
-	Button,
-	Divider,
-	Drawer,
-	Grid,
-	IconButton,
-	List,
-	ListItem,
-	ListItemButton,
-	ListItemIcon,
-	ListItemText,
-	Typography
-} from '@mui/material';
-import { Artist, Concert } from '../firebase/concertsService';
-import { useState } from 'react';
-import CloseIcon from '@mui/icons-material/Close';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Timestamp } from 'firebase/firestore';
-import useFavorites from '../hooks/useFavorites';
-import { StageDetails } from '../model/Stages';
-import ConcertDrawer from './ConcertDrawer';
+import { Box, Button, Grid, Typography } from '@mui/material';
+
+import { Concert } from '../firebase/concertsService';
 import useDrawer from '../hooks/useDrawer';
 import { GenreDetails } from '../model/Genres';
+
+import ConcertDrawer from './ConcertDrawer';
 
 type GridItemProps = {
 	concert: Concert;
