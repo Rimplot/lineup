@@ -48,7 +48,7 @@ const GridItem = ({ concert }: GridItemProps) => {
 			<Box
 				position="relative"
 				sx={{
-					'backgroundImage': `url(${concert.artist.imageUrl})`,
+					'backgroundImage': `url(${concert.artist.images[0]})`,
 					'backgroundSize': 'cover',
 					'backgroundPosition': 'center',
 					'&::after': {
@@ -165,7 +165,7 @@ const GridItem = ({ concert }: GridItemProps) => {
 								</List> */}
 								<Box
 									sx={{
-										backgroundImage: `url(${concert.artist.imageUrl})`,
+										backgroundImage: `url(${concert.artist.images[0]})`,
 										backgroundSize: 'cover',
 										backgroundPosition: 'center',
 										width: '100%',

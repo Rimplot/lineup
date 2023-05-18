@@ -89,7 +89,7 @@ const Admin = () => {
 												maxHeight: { xs: 233, md: 167 },
 												maxWidth: { xs: 350, md: 250 }
 											}}
-											src={c.artist.imageUrl}
+											src={c.artist.images[0]}
 										/>
 
 										<Typography fontWeight="bold">{c.stage}</Typography>

@@ -18,7 +18,7 @@ export type Artist = {
 	name: string;
 	shortDescription: string;
 	fullDescription: string;
-	imageUrl: string;
+	images: Array<string>;
 	genre: Genres;
 };
 

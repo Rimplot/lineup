@@ -3,24 +3,21 @@ import { useEffect } from 'react';
 import { useFilePicker } from 'use-file-picker';
 
 type Props = {
-	setFiles: React.Dispatch<React.SetStateAction<string>>;
-	image?: string;
+	setFiles: React.Dispatch<React.SetStateAction<Array<string>>>;
+	images: Array<string>;
 };
 
-const FilePicker = ({ setFiles, image }: Props) => {
+const FilePicker = ({ setFiles, images }: Props) => {
 	const [openFileSelector, { filesContent, loading, errors }] = useFilePicker({
 		readAs: 'DataURL',
 		accept: 'image/*',
 		multiple: true,
-		limitFilesConfig: { max: 1 },
 		maxFileSize: 50
 	});
 
 	useEffect(() => {
 		if (filesContent.length > 0) {
-			setFiles(filesContent[0].content);
-		} else if (image) {
-			setFiles(image);
+			setFiles([...images, ...filesContent.map(f => f.content)]);
 		}
 	}, [filesContent]);
 
@@ -30,8 +27,9 @@ const FilePicker = ({ setFiles, image }: Props) => {
 
 	return (
 		<Box>
-			{!!image && filesContent.length === 0 && (
+			{images.map((image, index) => (
 				<Box
+					key={index}
 					component="img"
 					sx={{
 						height: 233,
@@ -41,7 +39,7 @@ const FilePicker = ({ setFiles, image }: Props) => {
 					}}
 					src={image}
 				/>
-			)}
+			))}
 			{filesContent.map((file, index) => (
 				<Box key={index}>
 					<Typography>{file.name}</Typography>

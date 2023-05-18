@@ -36,7 +36,7 @@ const ConcertFormDialog = ({ children, onSubmit, concert }: Props) => {
 	const [submitError, setSubmitError] = useState<string>();
 
 	const [date, setDate] = useState<Date | null>(concert?.date.toDate() ?? null);
-	const [selectedFileString, setselectedFileString] = useState<string>('');
+	const [images, setImages] = useState<Array<string>>([]);
 
 	const {
 		register,
@@ -61,9 +61,7 @@ const ConcertFormDialog = ({ children, onSubmit, concert }: Props) => {
 		};
 		newConcert.id = concert?.id;
 		newConcert.date = Timestamp.fromMillis(Date.parse(date?.toString() ?? ''));
-		if (selectedFileString) {
-			newConcert.artist.imageUrl = selectedFileString;
-		}
+		newConcert.artist.images = images;
 		onSubmit(newConcert);
 		closeDialog();
 	};
@@ -161,8 +159,8 @@ const ConcertFormDialog = ({ children, onSubmit, concert }: Props) => {
 						/>
 					</LocalizationProvider>
 					<FilePicker
-						setFiles={setselectedFileString}
-						image={concert?.artist.imageUrl}
+						setFiles={setImages}
+						images={concert?.artist.images ?? []}
 					/>
 				</DialogContent>
 				<DialogActions>
