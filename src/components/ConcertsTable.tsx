@@ -42,7 +42,12 @@ const ConcertRow = ({ concert }: ConcertRowProps) => {
 	const { detailsOpen, toggleDrawer } = useDrawer();
 
 	return (
-		<TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+		<TableRow
+			sx={{
+				'borderRight': `10px solid ${GenreDetails[concert.artist.genre].color}`,
+				'&:last-child td, &:last-child th': { border: 0 }
+			}}
+		>
 			<TableCell sx={{ color: 'red' }}>
 				{isFavorite(concert.id!) && <FavoriteIcon />}
 			</TableCell>
@@ -96,7 +101,7 @@ const ConcertsTable = ({ concerts }: ConcertsTableProps) => {
 	const handleChangeRowsPerPage = (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
-		setRowsPerPage(parseInt(event.target.value, 5));
+		setRowsPerPage(parseInt(event.target.value));
 		setPage(0);
 	};
 
@@ -111,11 +116,7 @@ const ConcertsTable = ({ concerts }: ConcertsTableProps) => {
 	}, [stage, genre, concerts]);
 
 	const visibleConcerts = React.useMemo(
-		() =>
-			filteredConcerts.slice(
-				page * rowsPerPage,
-				page * rowsPerPage + rowsPerPage
-			),
+		() => filteredConcerts.slice(page * rowsPerPage, rowsPerPage),
 		[page, rowsPerPage, filteredConcerts]
 	);
 
