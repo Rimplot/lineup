@@ -1,11 +1,12 @@
-import { Box, Container, Link, Paper, Typography } from '@mui/material';
+import { Box, Container, Paper, Typography } from '@mui/material';
 import Logo from '../assets/music-fav.svg';
+import { Link } from '@tanstack/react-router';
 
 interface FooterProps {}
 
 const Footer = ({}: FooterProps) => (
 	<Paper
-		sx={{ marginTop: 'calc(10% + 60px)', bottom: 0 }}
+		sx={{ marginTop: '10vh', height: '10vh', bottom: 0 }}
 		component="footer"
 		square
 		variant="outlined"
@@ -32,12 +33,19 @@ const Footer = ({}: FooterProps) => (
 					mb: 2
 				}}
 			>
-				<Typography
-					variant="caption"
-					color="initial"
-					style={{ color: '#aaaaaa' }}
-				>
-					Copyright ©2023. <Link href='https://github.com/Rimplot/lineup'>GitHub.</Link> <Link href='/admin'>Admin.</Link>
+				<Typography variant="caption" style={{ color: '#aaaaaa' }}>
+					Copyright ©2023.{' '}
+					<a
+						href="https://github.com/Rimplot/lineup"
+						target="_blank"
+						rel="noreferrer"
+						style={{ color: '#aaaaaa' }}
+					>
+						GitHub.
+					</a>{' '}
+					<Link to="/admin" style={{ color: '#aaaaaa' }}>
+						Admin.
+					</Link>
 				</Typography>
 			</Box>
 		</Container>

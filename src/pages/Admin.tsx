@@ -25,6 +25,7 @@ import {
 } from '../firebase/concertsService';
 import ConcertFormDialog from '../components/ConcertFormDialog';
 import DeadlineDialog from '../components/DeadlineDialog';
+import Footer from '../components/Footer';
 import AdminLogin from '../components/AdminLogin';
 
 const Admin = () => {
@@ -43,159 +44,170 @@ const Admin = () => {
 	}, []);
 
 	return (
-		<Container sx={{ display: 'flex', flexDirection: 'column' }}>
-			<Typography
-				sx={{
-					alignSelf: 'center',
-					fontSize: '4rem',
-					fontWeight: 'bold',
-					paddingBottom: '1.5rem'
-				}}
+		<>
+			<Container
+				sx={{ display: 'flex', flexDirection: 'column', minHeight: '80vh' }}
 			>
-				ADMIN PANEL
-			</Typography>
-			{user ? (
-				<>
-					<Box
-						sx={{
-							display: 'flex',
-							justifyContent: 'space-between',
-							paddingLeft: '6rem',
-							paddingRight: '6rem'
-						}}
-					>
-						<Box sx={{ display: 'flex' }}>
-							<Typography sx={{ fontSize: '1.5rem' }}>
-								Current user:{' '}
-							</Typography>
-							<Box sx={{ width: '10px' }} />
-							<Typography sx={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
-								{user.email}
-							</Typography>
-						</Box>
-
-						<Button variant="contained" onClick={signOut}>
-							Sign out
-						</Button>
-					</Box>
-					<Divider sx={{ marginTop: '1.5rem', marginBottom: '1rem' }} />
-					<Box
-						sx={{
-							display: 'flex',
-							justifyContent: 'space-between',
-							paddingLeft: '6rem',
-							paddingRight: '6rem'
-						}}
-					>
-						<Box sx={{ display: 'flex' }}>
-							<Typography sx={{ fontSize: '1.5rem' }}>
-								Current deadline:
-							</Typography>
-							<Box sx={{ width: '10px' }} />
-							<Typography sx={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
-								{deadline.toLocaleString()}
-							</Typography>
-						</Box>
-						<DeadlineDialog initialDate={deadline}>
-							{open => (
-								<Button onClick={open} variant="outlined">
-									Set new deadline
-								</Button>
-							)}
-						</DeadlineDialog>
-					</Box>
-					<Divider sx={{ marginTop: '1.5rem', marginBottom: '1rem' }} />
-					<Box sx={{ display: 'flex', flexDirection: 'column' }}>
-						<Box sx={{ alignSelf: 'flex-end', paddingRight: '6rem' }}>
-							<ConcertFormDialog onSubmit={createConcert}>
-								{open => (
-									<Button onClick={open} variant="contained">
-										Add Concert
-									</Button>
-								)}
-							</ConcertFormDialog>
-						</Box>
-						<Typography
+				<Typography
+					sx={{
+						alignSelf: 'center',
+						fontSize: '4rem',
+						fontWeight: 'bold',
+						paddingBottom: '1.5rem'
+					}}
+				>
+					ADMIN PANEL
+				</Typography>
+				{user ? (
+					<>
+						<Box
 							sx={{
-								fontSize: '1.5rem',
-								fontWeight: 'bold',
-								paddingBottom: '1rem',
+								display: 'flex',
+								justifyContent: 'space-between',
 								paddingLeft: '6rem',
 								paddingRight: '6rem'
 							}}
 						>
-							Concerts list:
-						</Typography>
-						{!!concerts.length && (
-							<Box
+							<Box sx={{ display: 'flex' }}>
+								<Typography sx={{ fontSize: '1.5rem' }}>
+									Current user:{' '}
+								</Typography>
+								<Box sx={{ width: '10px' }} />
+								<Typography sx={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
+									{user.email}
+								</Typography>
+							</Box>
+
+							<Button variant="contained" onClick={signOut}>
+								Sign out
+							</Button>
+						</Box>
+						<Divider sx={{ marginTop: '1.5rem', marginBottom: '1rem' }} />
+						<Box
+							sx={{
+								display: 'flex',
+								justifyContent: 'space-between',
+								paddingLeft: '6rem',
+								paddingRight: '6rem'
+							}}
+						>
+							<Box sx={{ display: 'flex' }}>
+								<Typography sx={{ fontSize: '1.5rem' }}>
+									Current deadline:
+								</Typography>
+								<Box sx={{ width: '10px' }} />
+								<Typography sx={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
+									{deadline.toLocaleString()}
+								</Typography>
+							</Box>
+							<DeadlineDialog initialDate={deadline}>
+								{open => (
+									<Button onClick={open} variant="outlined">
+										Set new deadline
+									</Button>
+								)}
+							</DeadlineDialog>
+						</Box>
+						<Divider sx={{ marginTop: '1.5rem', marginBottom: '1rem' }} />
+						<Box sx={{ display: 'flex', flexDirection: 'column' }}>
+							<Box sx={{ alignSelf: 'flex-end', paddingRight: '6rem' }}>
+								<ConcertFormDialog onSubmit={createConcert}>
+									{open => (
+										<Button onClick={open} variant="contained">
+											Add Concert
+										</Button>
+									)}
+								</ConcertFormDialog>
+							</Box>
+							<Typography
 								sx={{
-									display: 'flex',
-									rowGap: 2,
-									columnGap: 2,
-									flexDirection: 'row',
-									flexWrap: 'wrap',
-									width: '100%',
-									justifyContent: 'space-between',
+									fontSize: '1.5rem',
+									fontWeight: 'bold',
+									paddingBottom: '1rem',
 									paddingLeft: '6rem',
-									paddingRight: '6rem',
-									paddingBottom: '4rem'
+									paddingRight: '6rem'
 								}}
 							>
-								{concerts.map(c => (
-									<Card key={c.date.seconds}>
-										<CardContent>
-											<Typography fontWeight="bold">{c.artist.name}</Typography>
-											<Box
-												component="img"
-												sx={{
-													height: 233,
-													width: 350,
-													maxHeight: { xs: 233, md: 167 },
-													maxWidth: { xs: 350, md: 250 }
-												}}
-												src={c.artist.images[0]}
-											/>
+								Concerts list:
+							</Typography>
+							{!!concerts.length && (
+								<Box
+									sx={{
+										display: 'flex',
+										rowGap: 2,
+										columnGap: 2,
+										flexDirection: 'row',
+										flexWrap: 'wrap',
+										width: '100%',
+										justifyContent: 'space-between',
+										paddingLeft: '6rem',
+										paddingRight: '6rem',
+										paddingBottom: '4rem'
+									}}
+								>
+									{concerts.map(c => (
+										<Card key={c.date.seconds}>
+											<CardContent>
+												<Typography fontWeight="bold">
+													{c.artist.name}
+												</Typography>
+												<Box
+													component="img"
+													sx={{
+														height: 233,
+														width: 350,
+														maxHeight: { xs: 233, md: 167 },
+														maxWidth: { xs: 350, md: 250 }
+													}}
+													src={c.artist.images[0]}
+												/>
 
-											<Typography fontWeight="bold">{c.stage}</Typography>
-											<Typography fontWeight="bold">
-												{c.date.toDate().toLocaleString()}
-											</Typography>
-											<Divider sx={{ my: 1 }} />
-										</CardContent>
-										<CardActions sx={{ justifyContent: 'space-between' }}>
-											<ConcertFormDialog onSubmit={editConcert} concert={c}>
-												{open => (
-													<IconButton onClick={open} color="info" title="Edit">
-														<Edit />
-													</IconButton>
-												)}
-											</ConcertFormDialog>
-											<IconButton
-												onClick={() => deleteConcert(c.id!)}
-												color="error"
-												title="Delete"
-											>
-												<Delete />
-											</IconButton>
-										</CardActions>
-									</Card>
-								))}
-							</Box>
-						)}
+												<Typography fontWeight="bold">{c.stage}</Typography>
+												<Typography fontWeight="bold">
+													{c.date.toDate().toLocaleString()}
+												</Typography>
+												<Divider sx={{ my: 1 }} />
+											</CardContent>
+											<CardActions sx={{ justifyContent: 'space-between' }}>
+												<ConcertFormDialog onSubmit={editConcert} concert={c}>
+													{open => (
+														<IconButton
+															onClick={open}
+															color="info"
+															title="Edit"
+														>
+															<Edit />
+														</IconButton>
+													)}
+												</ConcertFormDialog>
+												<IconButton
+													onClick={() => deleteConcert(c.id!)}
+													color="error"
+													title="Delete"
+												>
+													<Delete />
+												</IconButton>
+											</CardActions>
+										</Card>
+									))}
+								</Box>
+							)}
+						</Box>
+					</>
+				) : (
+					<Box
+						sx={{
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center'
+						}}
+					>
+						<AdminLogin />
 					</Box>
-				</>
-			) : (
-				<Box
-					sx={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center'
-					}}
-				>
-					<AdminLogin />
-				</Box>
-			)}
-		</Container>
+				)}
+			</Container>
+			<Footer />
+		</>
 	);
 };
 
