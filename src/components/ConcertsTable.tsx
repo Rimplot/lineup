@@ -116,7 +116,7 @@ const ConcertsTable = ({ concerts }: ConcertsTableProps) => {
 	}, [stage, genre, concerts]);
 
 	const visibleConcerts = React.useMemo(
-		() => filteredConcerts.slice(page * rowsPerPage, rowsPerPage),
+		() => filteredConcerts.slice(page * rowsPerPage, (page + 1) * rowsPerPage),
 		[page, rowsPerPage, filteredConcerts]
 	);
 
