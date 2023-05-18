@@ -19,6 +19,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Timestamp } from 'firebase/firestore';
 import useFavorites from '../hooks/useFavorites';
 import { StageDetails } from '../model/Stages';
+import ConcertDrawer from './ConcertDrawer';
 
 type GridItemProps = {
 	concert: Concert;
@@ -26,9 +27,6 @@ type GridItemProps = {
 
 const GridItem = ({ concert }: GridItemProps) => {
 	const [detailsOpen, setDetailsOpen] = useState(false);
-
-	const { isFavorite, addFavorite, removeFavorite } = useFavorites();
-	const favorite = isFavorite(concert.id!);
 
 	const toggleDrawer =
 		(open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -107,85 +105,11 @@ const GridItem = ({ concert }: GridItemProps) => {
 						>
 							Read more
 						</Button>
-						<Drawer
-							anchor="right"
+						<ConcertDrawer
+							concert={concert}
 							open={detailsOpen}
-							onClose={toggleDrawer(false)}
-							PaperProps={{
-								sx: { width: '90%', maxWidth: '800px' }
-							}}
-						>
-							<Box position="relative" role="presentation">
-								<Box position="absolute" top={16} left={16}>
-									<IconButton aria-label="close" onClick={toggleDrawer(false)}>
-										<CloseIcon />
-									</IconButton>
-								</Box>
-								<Box position="absolute" top={16} right={16}>
-									<IconButton
-										aria-label="favorite"
-										onClick={() =>
-											favorite
-												? removeFavorite(concert.id ?? '')
-												: addFavorite(concert.id ?? '')
-										}
-										sx={{
-											color: favorite ? 'red' : 'inherit'
-										}}
-									>
-										<FavoriteIcon />
-									</IconButton>
-								</Box>
-								{/* <List>
-									{['Inbox', 'Starred', 'Send email', 'Drafts'].map(
-										(text, index) => (
-											<ListItem key={text} disablePadding>
-												<ListItemButton>
-													<ListItemIcon>
-														{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-													</ListItemIcon>
-													<ListItemText primary={text} />
-												</ListItemButton>
-											</ListItem>
-										)
-									)}
-								</List>
-								<Divider />
-								<List>
-									{['All mail', 'Trash', 'Spam'].map((text, index) => (
-										<ListItem key={text} disablePadding>
-											<ListItemButton>
-												<ListItemIcon>
-													{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-												</ListItemIcon>
-												<ListItemText primary={text} />
-											</ListItemButton>
-										</ListItem>
-									))}
-								</List> */}
-								<Box
-									sx={{
-										backgroundImage: `url(${concert.artist.images[0]})`,
-										backgroundSize: 'cover',
-										backgroundPosition: 'center',
-										width: '100%',
-										aspectRatio: '3 / 2'
-									}}
-								/>
-								<Box p={4}>
-									<Typography variant="h3">{concert.artist.name}</Typography>
-									<Typography variant="overline">
-										{concert.stage} | {concert.date.toDate().toLocaleString()}
-									</Typography>
-									<Typography
-										variant="body1"
-										style={{ whiteSpace: 'pre-line' }}
-									>
-										{concert.artist.fullDescription}
-									</Typography>
-								</Box>
-							</Box>
-						</Drawer>
+							toggleDrawer={toggleDrawer}
+						/>
 					</Box>
 				</Box>
 			</Box>
