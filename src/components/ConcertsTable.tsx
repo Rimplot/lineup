@@ -185,7 +185,7 @@ const ConcertsTable = ({ concerts }: ConcertsTableProps) => {
 								</TableCell>
 								<TableCell>{concert.date.toDate().toLocaleString()}</TableCell>
 								<TableCell>{StageDetails[concert.stage].name}</TableCell>
-								<TableCell>{concert.artist.genre}</TableCell>
+								<TableCell>{GenreDetails[concert.artist.genre].name}</TableCell>
 							</TableRow>
 						))}
 						{visibleConcerts.length === 0 && (

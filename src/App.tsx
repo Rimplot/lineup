@@ -19,7 +19,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 
 import theme from './theme';
 import Home from './pages/Home';
-import Concert from './pages/Concert';
 import Admin from './pages/Admin';
 import NotFound from './pages/NotFound';
 import { UserProvider } from './hooks/useLoggedInUser';
@@ -42,12 +41,6 @@ const indexRoute = new Route({
 	component: Home
 });
 
-const concertRoute = new Route({
-	getParentRoute: () => rootRoute,
-	path: '/concert',
-	component: Concert
-});
-
 const adminRoute = new Route({
 	getParentRoute: () => rootRoute,
 	path: '/admin',
@@ -62,7 +55,6 @@ const notFoundRoute = new Route({
 
 const routeTree = rootRoute.addChildren([
 	indexRoute,
-	concertRoute,
 	adminRoute,
 	notFoundRoute
 ]);
