@@ -42,7 +42,12 @@ const ConcertRow = ({ concert }: ConcertRowProps) => {
 	const { detailsOpen, toggleDrawer } = useDrawer();
 
 	return (
-		<TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+		<TableRow
+			sx={{
+				'borderRight': `10px solid ${GenreDetails[concert.artist.genre].color}`,
+				'&:last-child td, &:last-child th': { border: 0 }
+			}}
+		>
 			<TableCell sx={{ color: 'red' }}>
 				{isFavorite(concert.id!) && <FavoriteIcon />}
 			</TableCell>

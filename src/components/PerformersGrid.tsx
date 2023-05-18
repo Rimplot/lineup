@@ -21,6 +21,7 @@ import useFavorites from '../hooks/useFavorites';
 import { StageDetails } from '../model/Stages';
 import ConcertDrawer from './ConcertDrawer';
 import useDrawer from '../hooks/useDrawer';
+import { GenreDetails } from '../model/Genres';
 
 type GridItemProps = {
 	concert: Concert;
@@ -53,12 +54,14 @@ const GridItem = ({ concert }: GridItemProps) => {
 						bottom={0}
 						p={2}
 						sx={{
-							backgroundColor: '#f5f855',
-							textTransform: 'uppercase',
-							fontWeight: 'bold'
+							color: 'white',
+							backgroundColor: GenreDetails[concert.artist.genre].color,
+							textTransform: 'uppercase'
 						}}
 					>
-						<Typography>{concert.artist.name}</Typography>
+						<Typography sx={{ fontWeight: 'bold' }}>
+							{concert.artist.name}
+						</Typography>
 					</Box>
 					<Box
 						className="performer-overlay"
