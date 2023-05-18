@@ -27,6 +27,7 @@ import ConcertFormDialog from '../components/ConcertFormDialog';
 import DeadlineDialog from '../components/DeadlineDialog';
 import Footer from '../components/Footer';
 import AdminLogin from '../components/AdminLogin';
+import { StageDetails } from '../model/Stages';
 
 const Admin = () => {
 	const user = useLoggedInUser();
@@ -140,30 +141,30 @@ const Admin = () => {
 										flexWrap: 'wrap',
 										width: '100%',
 										justifyContent: 'space-between',
-										paddingLeft: '6rem',
-										paddingRight: '6rem',
+										px: '1em',
 										paddingBottom: '4rem'
 									}}
 								>
 									{concerts.map(c => (
-										<Card key={c.date.seconds}>
+										<Card key={c.date.seconds} sx={{ minWidth: '25%' }}>
 											<CardContent>
-												<Typography fontWeight="bold">
-													{c.artist.name}
-												</Typography>
+												<Typography variant="h5">{c.artist.name}</Typography>
 												<Box
-													component="img"
 													sx={{
-														height: 233,
-														width: 350,
+														width: '100%',
+														aspectRatio: '3 / 2',
 														maxHeight: { xs: 233, md: 167 },
-														maxWidth: { xs: 350, md: 250 }
+														maxWidth: { xs: 350, md: 250 },
+														backgroundImage: `url(${c.artist.images[0]})`,
+														backgroundSize: 'cover',
+														backgroundPosition: 'center'
 													}}
-													src={c.artist.images[0]}
 												/>
 
-												<Typography fontWeight="bold">{c.stage}</Typography>
-												<Typography fontWeight="bold">
+												<Typography variant="overline">
+													{StageDetails[c.stage].name}
+												</Typography>
+												<Typography variant="body1">
 													{c.date.toDate().toLocaleString()}
 												</Typography>
 												<Divider sx={{ my: 1 }} />
