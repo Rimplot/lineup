@@ -20,26 +20,14 @@ import { Timestamp } from 'firebase/firestore';
 import useFavorites from '../hooks/useFavorites';
 import { StageDetails } from '../model/Stages';
 import ConcertDrawer from './ConcertDrawer';
+import useDrawer from '../hooks/useDrawer';
 
 type GridItemProps = {
 	concert: Concert;
 };
 
 const GridItem = ({ concert }: GridItemProps) => {
-	const [detailsOpen, setDetailsOpen] = useState(false);
-
-	const toggleDrawer =
-		(open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
-			if (
-				event.type === 'keydown' &&
-				((event as React.KeyboardEvent).key === 'Tab' ||
-					(event as React.KeyboardEvent).key === 'Shift')
-			) {
-				return;
-			}
-
-			setDetailsOpen(open);
-		};
+	const { detailsOpen, toggleDrawer } = useDrawer();
 
 	return (
 		<Grid item className="performers-grid-item" xs={12} sm={6} md={4} lg={3}>

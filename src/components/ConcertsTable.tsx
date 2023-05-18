@@ -15,6 +15,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { useState } from 'react';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import {
+	Button,
 	ClickAwayListener,
 	FormControl,
 	InputLabel,
@@ -28,6 +29,37 @@ import useFavorites from '../hooks/useFavorites';
 import { Concert } from '../firebase/concertsService';
 import { StageDetails } from '../model/Stages';
 import { GenreDetails } from '../model/Genres';
+import ConcertDrawer from './ConcertDrawer';
+import useDrawer from '../hooks/useDrawer';
+
+type ConcertRowProps = {
+	concert: Concert;
+};
+
+const ConcertRow = ({ concert }: ConcertRowProps) => {
+	const { isFavorite } = useFavorites();
+
+	const { detailsOpen, toggleDrawer } = useDrawer();
+
+	return (
+		<TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+			<TableCell sx={{ color: 'red' }}>
+				{isFavorite(concert.id!) && <FavoriteIcon />}
+			</TableCell>
+			<TableCell component="th" scope="row">
+				<Button onClick={toggleDrawer(true)}>{concert.artist.name}</Button>
+			</TableCell>
+			<TableCell>{concert.date.toDate().toLocaleString()}</TableCell>
+			<TableCell>{StageDetails[concert.stage].name}</TableCell>
+			<TableCell>{GenreDetails[concert.artist.genre].name}</TableCell>
+			<ConcertDrawer
+				concert={concert}
+				open={detailsOpen}
+				toggleDrawer={toggleDrawer}
+			/>
+		</TableRow>
+	);
+};
 
 type ConcertsTableProps = {
 	concerts: Array<Concert>;
@@ -86,8 +118,6 @@ const ConcertsTable = ({ concerts }: ConcertsTableProps) => {
 			),
 		[page, rowsPerPage, filteredConcerts]
 	);
-
-	const { isFavorite } = useFavorites();
 
 	return (
 		<>
@@ -173,20 +203,7 @@ const ConcertsTable = ({ concerts }: ConcertsTableProps) => {
 					</TableHead>
 					<TableBody>
 						{visibleConcerts.map((concert, index) => (
-							<TableRow
-								key={index}
-								sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-							>
-								<TableCell sx={{ color: 'red' }}>
-									{isFavorite(concert.id!) && <FavoriteIcon />}
-								</TableCell>
-								<TableCell component="th" scope="row">
-									{concert.artist.name}
-								</TableCell>
-								<TableCell>{concert.date.toDate().toLocaleString()}</TableCell>
-								<TableCell>{StageDetails[concert.stage].name}</TableCell>
-								<TableCell>{GenreDetails[concert.artist.genre].name}</TableCell>
-							</TableRow>
+							<ConcertRow key={index} concert={concert} />
 						))}
 						{visibleConcerts.length === 0 && (
 							<TableRow>
