@@ -12,6 +12,7 @@ import {
 	concertsCollection,
 	deadlineDocument
 } from '../firebase/concertsService';
+import Footer from '../components/Footer';
 
 const Home = () => {
 	const ref = useRef<any>(null);
@@ -97,6 +98,7 @@ const Home = () => {
 					<ConcertsTable concerts={concerts} />
 				</Box>
 			</Container>
+			<Footer />
 		</>
 	);
 };
