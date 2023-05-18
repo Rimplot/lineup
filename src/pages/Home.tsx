@@ -13,6 +13,7 @@ import {
 	deadlineDocument
 } from '../firebase/concertsService';
 import Footer from '../components/Footer';
+import FavoritesGrid from '../components/FavoritesGrid';
 
 const Home = () => {
 	const ref = useRef<any>(null);
@@ -88,7 +89,7 @@ const Home = () => {
 				</Stack>
 				<Box my={4} display="flex" />
 				<Box ref={ref}>
-					<Typography variant="h2" my={4}>
+					<Typography variant="h3" my={4}>
 						Headliners
 					</Typography>
 					<PerformersGrid concerts={concerts.filter(c => c.headliner)} />
@@ -97,6 +98,7 @@ const Home = () => {
 				<Box>
 					<ConcertsTable concerts={concerts} />
 				</Box>
+				<FavoritesGrid concerts={concerts} />
 			</Container>
 			<Footer />
 		</>
